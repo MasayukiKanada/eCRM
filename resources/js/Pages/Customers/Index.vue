@@ -2,9 +2,10 @@
 import FlashMessage from '@/Components/FlashMessage.vue';
 import AuthenticatedLayout from '@/Layouts/AuthenticatedLayout.vue';
 import { Head, Link } from '@inertiajs/vue3';
+import Pagination from '@/Components/Pagination.vue'
 
 defineProps({
-    customers: Array
+    customers: Object
 })
 
 </script>
@@ -20,7 +21,7 @@ defineProps({
         <div class="py-12">
             <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
                 <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
-                    <section class="text-gray-600 body-font">
+                    <section class="text-gray-600 body-font mb-6">
                         <div class="container px-5 py-8 mx-auto">
                             <FlashMessage />
                             <div class="lg:w-2/3 w-full mx-auto overflow-auto">
@@ -38,7 +39,7 @@ defineProps({
                                     </tr>
                                     </thead>
                                     <tbody>
-                                    <tr v-for="customer in customers" :key="customer.id">
+                                    <tr v-for="customer in customers.data" :key="customer.id">
                                         <td class="border-b-2 border-gray-200 px-4 py-3">{{ customer.id }}
                                         </td>
                                         <td class="border-b-2 border-gray-200 px-4 py-3">{{ customer.name }}</td>
@@ -50,6 +51,7 @@ defineProps({
                                 </table>
                             </div>
                         </div>
+                        <Pagination class="mt-6 ml-6" :links="customers.links"></Pagination>
                         </section>
                 </div>
             </div>
