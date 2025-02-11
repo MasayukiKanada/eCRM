@@ -27,6 +27,14 @@ import { ref, reactive ,onMounted } from 'vue'
         }
     }
 
+    const emit = defineEmits(['update:customerId'])
+
+    const setCustomer = e => {
+        search.value = e.kana
+        emit('update:customerId', e.id)
+        toggleStatus()
+    }
+
 </script>
 
 <template>
@@ -53,7 +61,10 @@ import { ref, reactive ,onMounted } from 'vue'
                     </thead>
                     <tbody>
                     <tr v-for="customer in customers.value.data" :key="customer.id">
-                        <td class="border-b-2 border-gray-200 px-4 py-3">{{ customer.id }}
+                        <td class="border-b-2 border-gray-200 px-4 py-3">
+                            <button @click="setCustomer({ id: customer.id, kana: customer.kana })" type="button" class="text-blue-400">
+                            {{ customer.id }}
+                            </button>
                         </td>
                         <td class="border-b-2 border-gray-200 px-4 py-3">{{ customer.name }}</td>
                         <td class="border-b-2 border-gray-200 px-4 py-3">{{ customer.kana }}</td>
