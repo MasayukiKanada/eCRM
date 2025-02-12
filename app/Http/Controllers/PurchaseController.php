@@ -10,6 +10,7 @@ use App\Models\Item;
 use Inertia\Inertia;
 use Illuminate\Support\Facades\DB;
 use App\Models\Order;
+use App\Models\Scopes\Subtotal;
 
 class PurchaseController extends Controller
 {
@@ -20,7 +21,15 @@ class PurchaseController extends Controller
      */
     public function index()
     {
-        dd(Order::paginate(50));
+
+        $orders = Order::groupBy('id')
+        ->selectRaw('id, sum(Subtotal) as total,
+        customer_name, status, created_at')
+        ->paginate(50);
+
+        return Inertia::render('Purchases/Index', [
+            'orders' => $orders,
+        ]);
     }
 
     /**
